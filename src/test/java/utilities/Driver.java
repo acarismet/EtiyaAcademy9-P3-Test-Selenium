@@ -61,13 +61,19 @@ public class Driver {
             case "click":
                 element = wait.until(ExpectedConditions.elementToBeClickable(locator));
                 break;
-            case "url":
-                wait.until(ExpectedConditions.urlToBe(locator.toString()));
-                break;
             default:
                 throw new IllegalArgumentException("Invalid wait action specified");
         }
-        return element;  // Return the found WebElement
+        return element;
+    }
+
+    public static boolean waitForUrl(String expectedUrl, int timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        return wait.until(ExpectedConditions.urlToBe(expectedUrl));
+    }
+
+    public static String getCurrentUrl() {
+        return driver.getCurrentUrl();
     }
 
     // For multiple elements
@@ -88,6 +94,12 @@ public class Driver {
             }
             return null; // If not found, return null to keep waiting
         });
+    }
+
+    // Go to specific url and wait
+    public static boolean navigateToUrlAndWait(String url, int timeout) {
+        driver.get(url);
+        return waitForUrl(url, timeout);
     }
 
 

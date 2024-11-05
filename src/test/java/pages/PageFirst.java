@@ -16,22 +16,26 @@ public class PageFirst {
 
     // From Here You Can Add Locator Finding Methods to Recall In Test
 
-    public WebElement getLoginEmailInput() { return Driver.waitForElement(driver, By.id("floatingInput"), "click", 10); }
-    public WebElement getLoginPasswordInput() { return Driver.waitForElement(driver, By.id("floatingPassword"), "click", 10); }
-    // Single Element
-    public WebElement getUsernameInput() {
-        return Driver.waitForElement(driver, By.id("user-name"), "visit", 10);
+    public WebElement getLoginEmailInput() {
+        return Driver.waitForElement(driver, By.id("floatingInput"), "visit", 10);
     }
-    public WebElement getPasswordInput() {
-        return Driver.waitForElement(driver, By.id("password"), "visit", 10);
+    public WebElement getLoginPasswordInput() {
+        return Driver.waitForElement(driver, By.id("floatingPassword"), "visit", 10);
     }
     public WebElement getLoginButton() {
-        return Driver.waitForElement(driver, By.id("login-button"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("// html/body/app-root/app-login-page/app-login/div/div[1]/form/div[2]/app-button/button"), "click", 10);
     }
 
-    // URL
-    public String getCurrentUrl() {
-        return driver.getCurrentUrl();
+    public boolean waitForSpecificUrl(String expectedUrl, int timeout) {
+        return Driver.waitForUrl(expectedUrl, timeout);
+    }
+
+    public String getCurrentPageUrl() {
+        return Driver.getCurrentUrl();
+    }
+
+    public boolean navigateToCustomerCreate() {
+        return Driver.navigateToUrlAndWait("http://localhost:4200/customer-create", 10);
     }
 
     // Attribute like data-test, src

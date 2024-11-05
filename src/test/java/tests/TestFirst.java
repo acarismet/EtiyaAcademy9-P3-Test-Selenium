@@ -19,61 +19,51 @@ public class TestFirst {
     public void setUp() {
         // Initialize WebDriver and open the login page
         driver = Driver.getDriver();
-        driver.get("https://www.saucedemo.com/");
+        driver.get("http://localhost:4200/login");
 
         // Initialize the PageLogin object
         pageFirst = new PageFirst(driver);
     }
 
     public void validLogin () {
-        pageFirst.getUsernameInput().sendKeys(Constants.standardValidUsername);
-        pageFirst.getPasswordInput().sendKeys(Constants.validPassword);
+        pageFirst.getLoginEmailInput().sendKeys(Constants.loginValidEmail);
+        System.out.println("Email entered => " + Constants.loginValidEmail);
+        pageFirst.getLoginPasswordInput().sendKeys(Constants.loginValidPassword);
+        System.out.println("Password entered => " + Constants.loginValidPassword);
         pageFirst.getLoginButton().click();
+
+        boolean isUrlReached = pageFirst.waitForSpecificUrl(Constants.customerSearchURL, 10);
+        System.out.println("URL reached: " + isUrlReached);
+
+        String currentUrl = pageFirst.getCurrentPageUrl();
+        System.out.println("Current Page URL: " + currentUrl);
+        assert isUrlReached : "FAILED TO REACH EXPECTED URL";
+        System.out.println("Reached URL successfully!");
     }
 
-    public void invalidLogin () {
-        pageFirst.getUsernameInput().sendKeys(Constants.invalidUsername);
-        pageFirst.getPasswordInput().sendKeys(Constants.invalidPassword);
-        pageFirst.getLoginButton().click();
+    public void getToCustomerCreatePage () {
+        boolean isCustomerCreateLoaded = pageFirst.navigateToCustomerCreate();
+        System.out.println("Customer Create loaded: " + isCustomerCreateLoaded);
+        assert isCustomerCreateLoaded : "FAILED TO LOAD CUSTOMER CREATE";
+        System.out.println("Customer Create loaded successfully!" + pageFirst.getCurrentPageUrl());
     }
 
-    public void lockedOutLogin () {
-        pageFirst.getUsernameInput().sendKeys(Constants.lockedOutUsername);
-        pageFirst.getPasswordInput().sendKeys(Constants.validPassword);
-        pageFirst.getLoginButton().click();
-    }
 
     @Test
     public void testValidLogin()
     {
         validLogin();
-        assertEquals(Constants.homePageURL, pageFirst.getCurrentUrl(), "Login Failed");
-        System.out.println("\n########## TEST VALID LOGIN ##########");
-        System.out.println("\nExpected URL: " + Constants.homePageURL);
-        System.out.println("Actual URL: " + pageFirst.getCurrentUrl());
-        System.out.println("\n##### ##### ##### ##### ##### #####");
+        System.out.println("\n###########################################\n");
     }
 
     @Test
-    public void testInvalidLogin()
+    public void testDemographicCreate()
     {
-        invalidLogin();
-        assertEquals(Constants.errorMessageInvalidInput, pageFirst.getInvalidMessage());
-        System.out.println("\n########## TEST INVALID LOGIN ##########");
-        System.out.println("\nExpected Error Message: " + Constants.errorMessageInvalidInput);
-        System.out.println("Actual Error message: " + pageFirst.getInvalidMessage());
-        System.out.println("\n##### ##### ##### ##### ##### #####");
+        validLogin();
+        getToCustomerCreatePage();
+        System.out.println("\n###########################################\n");
     }
 
-    @Test
-    public void testLockedUserLogin() {
-        lockedOutLogin();
-        assertEquals(Constants.lockedOutErrorMessage, pageFirst.getInvalidMessage());
-        System.out.println("\n########## TEST LOCKED OUT USER LOGIN ##########");
-        System.out.println("\nExpected Error Message: " + Constants.lockedOutErrorMessage);
-        System.out.println("Actual Error message: " + pageFirst.getInvalidMessage());
-        System.out.println("\n##### ##### ##### ##### ##### #####");
-    }
 
     @AfterEach
     public void tearDown() {
