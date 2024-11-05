@@ -16,6 +16,8 @@ public class PageFirst {
 
     // From Here You Can Add Locator Finding Methods to Recall In Test
 
+    public WebElement getLoginEmailInput() { return Driver.waitForElement(driver, By.id("floatingInput"), "click", 10); }
+    public WebElement getLoginPasswordInput() { return Driver.waitForElement(driver, By.id("floatingPassword"), "click", 10); }
     // Single Element
     public WebElement getUsernameInput() {
         return Driver.waitForElement(driver, By.id("user-name"), "visit", 10);
