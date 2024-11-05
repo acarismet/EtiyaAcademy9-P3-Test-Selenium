@@ -1,8 +1,8 @@
 package utilities;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.io.FileInputStream; // To read file
+import java.io.IOException; // To catch possible errors during file interactions
+import java.util.Properties; // Receives data from .properties files as key-value
 
 public class ConfigReader {
     private static Properties properties;
