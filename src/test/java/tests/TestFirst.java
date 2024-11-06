@@ -81,7 +81,7 @@ public class TestFirst {
         pageCCDemographicInfoTab.getMiddleNameInput().sendKeys(Constants.customerMiddleName);
         pageCCDemographicInfoTab.getLastNameInput().sendKeys(Constants.customerLastName);
 
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+
         pageCCDemographicInfoTab.getBirthDateInput().sendKeys(Constants.customerBirthday);
 //        WebElement birthDateInput = pageCCDemographicInfoTab.getBirthDateInput();
 //        js.executeScript("arguments[0].click();", birthDateInput);
