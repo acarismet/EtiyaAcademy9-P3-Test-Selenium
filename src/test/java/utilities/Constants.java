@@ -21,16 +21,21 @@ public class Constants {
     public static final String customerNationalityID = "10112113114";
 
 
-    // Address Info
-    public static final String customerAddressLine1 = "Kuru Kahveci";
-    public static final String customerAddressLine2 = "Efendi";
-    public static final String customerAddressLine3 = "Kuru Kahveci";
+    // Address Info Tab
     public static final String noAddressText = " There is no address ";
+    public static final String customerAddressCity = "Hatay";
+    public static final String customerAddressDistrict = "İskenderun";
+    public static final String customerAddressNeighbourhood = "Yenişehir";
+    public static final String customerAddressStreet = "Ziya Gökalp Caddesi";
+    public static final String customerAddressHouseFlat = "25";
+    public static final String customerAddressDescription = "Philips Servis Yanı";
 
 
-    // Contact Info
-    public static final String customerPhone = "3129879999";
-    public static final String customerEmail = "telve@kahve.com";
+    // Contact Info Tab
+    public static final String customerContactEmail = "telve@kahve.com";
+    public static final String customerContactPhone = "5971062312";
+    public static final String customerContactHomePhone = "3269879999";
+    public static final String customerContactFax = "7788998844";
 
 
 }

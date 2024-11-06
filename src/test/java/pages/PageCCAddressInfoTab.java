@@ -19,7 +19,7 @@ public class PageCCAddressInfoTab {
     }
 
 
-    // Add Address Inputs
+    // Add Address Pop-Up Inputs
     public WebElement getCityInput() {
         return Driver.waitForElement(driver, By.id("city"), "click", 10);
     }
@@ -44,6 +44,19 @@ public class PageCCAddressInfoTab {
         return Driver.waitForElement(driver, By.id("description"), "click", 10);
     }
 
+
+    // Add Address Pop-Up Buttons
+    public WebElement getSaveButton() {
+        return Driver.waitForElement(driver, By.cssSelector("div.sm\\:gap-8:nth-child(3) > app-button:nth-child(2) > button:nth-child(1)"), "click", 10);
+    }
+
+    public WebElement getCancelButton() {
+        return Driver.waitForElement(driver, By.cssSelector("div.sm\\:gap-8:nth-child(3) > app-button:nth-child(1) > button:nth-child(1)"), "click", 10);
+    }
+
+    public WebElement getCloseXButton() {
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-address-info/app-popup/div/div/button"), "click", 10);
+    }
 
 
 
