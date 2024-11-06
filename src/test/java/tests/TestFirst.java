@@ -82,7 +82,7 @@ public class TestFirst {
         pageCCDemographicInfoTab.getLastNameInput().sendKeys(Constants.customerLastName);
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        pageCCDemographicInfoTab.getBirthDateInput().sendKeys("1967-12-05");
+        pageCCDemographicInfoTab.getBirthDateInput().sendKeys(Constants.customerBirthday);
 //        WebElement birthDateInput = pageCCDemographicInfoTab.getBirthDateInput();
 //        js.executeScript("arguments[0].click();", birthDateInput);
 //        js.executeScript("arguments[0].value='1967-12-05';", birthDateInput);
@@ -102,31 +102,6 @@ public class TestFirst {
         System.out.println("Clicked next button");
     }
 
-    // ####### CHECK NO ADDRESS IN ADDRESS INFO TAB
-
-    boolean isNoAddress = false;
-    public void checkNoAddress() {
-        assertEquals(Constants.noAddressText, pageCCAddressInfoTab.getNoAddressText(), "There is already address for this customer");
-        isNoAddress = true;
-        if(isNoAddress) {
-            System.out.println("No address found");
-        } else {
-            System.out.println("Address found - There shouldn't be any address for the new customer");
-        }
-    }
-
-    // ####### CHECK ADDRESS INFO TAB URL
-
-    boolean isReachedToAddress = false;
-    public void checkReachedToAddress() throws IOException {
-        isReachedToAddress = pageCCAddressInfoTab.waitForSpecificUrl(Constants.customerSearchURL, 10);
-        System.out.println("URL reached: " + isReachedToAddress);
-
-        String currentUrl = pageCCAddressInfoTab.getCurrentPageUrl();
-        System.out.println("Current Page URL: " + currentUrl);
-        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_empty_address.png", 5);
-        System.out.println("User couldn't be redirected to the Address Information Tab");
-    }
 
     // ####### SECOND TAB - CREATE ADDRESS INFORMATION
 
@@ -153,67 +128,40 @@ public class TestFirst {
 
     }
 
-    // ####### CHECK CONTACT INFO TAB URL
-
-    boolean isReachedToContact = false;
-    public void checkReachedToContact() {
-        isReachedToContact = pageCCContactInfoTab.waitForSpecificUrl(Constants.customerSearchURL, 10);
-        System.out.println("URL reached: " + isReachedToContact);
-
-        String currentUrl = pageCCContactInfoTab.getCurrentPageUrl();
-        System.out.println("Current Page URL: " + currentUrl);
-    }
 
     // ####### THIRD TAB - CREATE CONTACT INFORMATION
 
     public void createContactInformationFromScratch() throws IOException {
         createAddressInformationFromScratch();
-        checkReachedToContact();
-        if (isReachedToContact) {
-            Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_empty_contact.png", 5);
-            pageCCContactInfoTab.getEmailInput().sendKeys(Constants.customerContactEmail);
-            pageCCContactInfoTab.getPhoneInput().sendKeys(Constants.customerContactPhone);
-            pageCCContactInfoTab.getFaxInput().sendKeys(Constants.customerContactFax);
-            pageCCContactInfoTab.getHomePhoneInput().sendKeys(Constants.customerContactHomePhone);
-            Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_contact.png", 5);
-            pageCCContactInfoTab.getSaveButton();
-            WebElement saveButton = pageCCContactInfoTab.getSaveButton();
-            Driver.clickElement(saveButton);
-        } else {
-            System.out.println("User couldn't be redirected to the Contact Information Tab");
-        }
+        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_empty_contact.png", 5);
+        pageCCContactInfoTab.getEmailInput().sendKeys(Constants.customerContactEmail);
+        pageCCContactInfoTab.getPhoneInput().sendKeys(Constants.customerContactPhone);
+        pageCCContactInfoTab.getFaxInput().sendKeys(Constants.customerContactFax);
+        pageCCContactInfoTab.getHomePhoneInput().sendKeys(Constants.customerContactHomePhone);
+        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_contact.png", 5);
+        pageCCContactInfoTab.getSaveButton();
+        WebElement saveButton = pageCCContactInfoTab.getSaveButton();
+        Driver.clickElement(saveButton);
     }
 
-    // ####### CHECK CUSTOMER PAGE URL
-    boolean isReachedToCustomerSearch = false;
-    public void checkReachedToCustomerSearch() {
-        isReachedToCustomerSearch = pageCustomerSearch.waitForSpecificUrl(Constants.customerSearchURL, 10);
-        System.out.println("URL reached: " + isReachedToCustomerSearch);
 
-        String currentUrl = pageCustomerSearch.getCurrentPageUrl();
-        System.out.println("Current Page URL: " + currentUrl);
-    }
 
     // ####### ALL SUCCESSFUL STEPS HOLDER
     public void checkCreatedCustomerByNationality() throws IOException {
         createContactInformationFromScratch();
-        checkReachedToCustomerSearch();
-        if (isReachedToCustomerSearch) {
-            Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_reached_customer_search.png", 5);
-            pageCustomerSearch.getNationalIDInput().sendKeys(Constants.customerNationalityID);
-            pageCustomerSearch.getSearchButton();
-            WebElement SearchButton = pageCustomerSearch.getSearchButton();
-            Driver.clickElement(SearchButton);
-            Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_searched_customer.png", 5);
-            pageCustomerSearch.elementWithSpecificText();
-            WebElement NatIdWithSpecificText = pageCustomerSearch.getNationalIDInput();
-            if (NatIdWithSpecificText != null) {
-                System.out.println("Created Customer Found: " + NatIdWithSpecificText.getText());
-            } else {
-                System.out.println("Element with specified text not found.");
-            }
+        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_reached_customer_search.png", 5);
+        pageCustomerSearch.getNationalIDInput().sendKeys(Constants.customerNationalityID);
+        pageCustomerSearch.getSearchButton();
+        WebElement SearchButton = pageCustomerSearch.getSearchButton();
+        Driver.clickElement(SearchButton);
+        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_searched_customer.png", 5);
+
+        pageCustomerSearch.elementWithSpecificText();
+        WebElement NatIdWithSpecificText = pageCustomerSearch.getNationalIDInput();
+        if (NatIdWithSpecificText != null) {
+            System.out.println("Created Customer Found: " + NatIdWithSpecificText.getText());
         } else {
-            System.out.println("User couldn't be redirected to the Customer Search Page");
+            System.out.println("Element with specified text not found.");
         }
 
     }
@@ -231,7 +179,7 @@ public class TestFirst {
 
     @Test
     public void testPart2() throws IOException {
-        createAddressInformationFromScratch();
+        createContactInformationFromScratch();
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {

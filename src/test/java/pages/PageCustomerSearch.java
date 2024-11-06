@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utilities.Driver;
+import utilities.Constants;
 
 public class PageCustomerSearch {
     private WebDriver driver;
@@ -28,7 +29,7 @@ public class PageCustomerSearch {
 
 
     public WebElement elementWithSpecificText() {
-        return Driver.waitForElementWithText(driver, By.cssSelector("td.px-4:nth-child(1)"), "10112113119", 10);
+        return Driver.waitForElementWithText(driver, By.cssSelector("td.px-4:nth-child(1)"), Constants.customerNationalityID, 10);
     }
 
 

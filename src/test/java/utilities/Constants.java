@@ -15,10 +15,10 @@ public class Constants {
     public static final String customerFirstName = "Mehmet";
     public static final String customerMiddleName = "Kuru Kahveci";
     public static final String customerLastName = "Efendi";
-    public static final String customerBirthday = "05121921";
-    public static final String customerFatherName = "Cezvehan";
-    public static final String customerMotherName = "Telvenur";
-    public static final String customerNationalityID = "98765478420";
+    public static final String customerBirthday = "1967-12-05";
+    public static final String customerFatherName = "Arabica";
+    public static final String customerMotherName = "Yemen";
+    public static final String customerNationalityID = "80020030015";
 
 
     // Address Info Tab
