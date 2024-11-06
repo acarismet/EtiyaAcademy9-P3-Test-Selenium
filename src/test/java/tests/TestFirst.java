@@ -42,6 +42,7 @@ public class TestFirst {
     }
 
     public void getToCustomerCreatePage () {
+        validLogin();
         boolean isCustomerCreateLoaded = pageFirst.navigateToCustomerCreate();
         System.out.println("Customer Create loaded: " + isCustomerCreateLoaded);
         assert isCustomerCreateLoaded : "FAILED TO LOAD CUSTOMER CREATE";
@@ -49,19 +50,23 @@ public class TestFirst {
     }
 
 
-    @Test
-    public void testValidLogin()
-    {
-        validLogin();
-        System.out.println("\n###########################################\n");
+    public void createDemographicInformation() {
+        getToCustomerCreatePage();
+        pageFirst.getFirstNameInput().sendKeys();
     }
+
+//    @Test
+//    public void testValidLogin()
+//    {
+//        validLogin();
+//        System.out.println("\n######## testValidLogin Ends ########\n");
+//    }
 
     @Test
     public void testDemographicCreate()
     {
-        validLogin();
         getToCustomerCreatePage();
-        System.out.println("\n###########################################\n");
+        System.out.println("\n######## testDemographicCreate Ends ########\n");
     }
 
 
