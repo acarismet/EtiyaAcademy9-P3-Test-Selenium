@@ -28,7 +28,7 @@ public class PageCustomerSearch {
 
 
     public WebElement elementWithSpecificText() {
-        return Driver.waitForElementWithText(driver, By.cssSelector("td.px-4:nth-child(1)"), "12345678901", 10);
+        return Driver.waitForElementWithText(driver, By.cssSelector("td.px-4:nth-child(1)"), "10112113114", 10);
     }
 
 
