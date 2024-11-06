@@ -40,7 +40,7 @@ public class PageCCAddressInfoTab {
         return Driver.waitForElement(driver, By.id("neighbourhood"), "click", 10);
     }
 
-    public WebElement getDescriptionInput() {
+    public WebElement getAddressDescriptionInput() {
         return Driver.waitForElement(driver, By.id("description"), "click", 10);
     }
 
@@ -65,7 +65,7 @@ public class PageCCAddressInfoTab {
         return Driver.waitForElement(driver, By.cssSelector("div.sm\\:flex:nth-child(3) > div:nth-child(2) > app-button:nth-child(2) > button:nth-child(1)"), "click", 10);
     }
 
-    public WebElement geAddButton() {
+    public WebElement getAddButton() {
         return Driver.waitForElement(driver, By.cssSelector(".sm\\:gap-8 > app-button:nth-child(2) > button:nth-child(1)"), "click", 10);
     }
 
