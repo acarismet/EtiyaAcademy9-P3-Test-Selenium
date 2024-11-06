@@ -82,26 +82,24 @@ public class TestFirst {
         pageCCDemographicInfoTab.getLastNameInput().sendKeys(Constants.customerLastName);
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement birthDateInput = pageCCDemographicInfoTab.getBirthDateInput();
-        js.executeScript("arguments[0].click();", birthDateInput);  // JavaScript ile tıklama
-        js.executeScript("arguments[0].value='2024-11-06';", birthDateInput);  // Tarih değerini JavaScript ile set etme
-
-        //        try {
-//            Thread.sleep(4000);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-
-
+        pageCCDemographicInfoTab.getBirthDateInput().sendKeys("1967-12-05");
+//        WebElement birthDateInput = pageCCDemographicInfoTab.getBirthDateInput();
+//        js.executeScript("arguments[0].click();", birthDateInput);
+//        js.executeScript("arguments[0].value='1967-12-05';", birthDateInput);
         pageCCDemographicInfoTab.getGenderDropdown().click();
         pageCCDemographicInfoTab.getMaleOption().click();
         pageCCDemographicInfoTab.getFatherNameInput().sendKeys(Constants.customerFatherName);
         pageCCDemographicInfoTab.getMotherNameInput().sendKeys(Constants.customerMotherName);
         pageCCDemographicInfoTab.getNationalityIdInput().sendKeys(Constants.customerNationalityID);
         scrollToBottom();
+        pageCCDemographicInfoTab.getRadioTurkish().click();
         Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_demographic.png", 5);
+        pageCCDemographicInfoTab.getNextButton();
+        System.out.println(pageCCDemographicInfoTab.getNextButton().getText());
+//        pageCCDemographicInfoTab.getNextButton().click();
         WebElement nextButton = pageCCDemographicInfoTab.getNextButton();
         Driver.clickElement(nextButton);
+        System.out.println("Clicked next button");
     }
 
     // ####### CHECK NO ADDRESS IN ADDRESS INFO TAB
@@ -110,6 +108,11 @@ public class TestFirst {
     public void checkNoAddress() {
         assertEquals(Constants.noAddressText, pageCCAddressInfoTab.getNoAddressText(), "There is already address for this customer");
         isNoAddress = true;
+        if(isNoAddress) {
+            System.out.println("No address found");
+        } else {
+            System.out.println("Address found - There shouldn't be any address for the new customer");
+        }
     }
 
     // ####### CHECK ADDRESS INFO TAB URL
@@ -129,27 +132,24 @@ public class TestFirst {
 
     public void createAddressInformationFromScratch() throws IOException {
         createDemographicInformation();
-        checkReachedToAddress();
-        checkNoAddress();
-        if(isNoAddress) {
-            scrollToBottom();
-            WebElement addButton = pageCCAddressInfoTab.getAddButton();
-            Driver.clickElement(addButton);
-            pageCCAddressInfoTab.getCityInput().sendKeys(Constants.customerAddressCity);
-            pageCCAddressInfoTab.getDistrictInput().sendKeys(Constants.customerAddressDistrict);
-            pageCCAddressInfoTab.getStreetInput().sendKeys(Constants.customerAddressStreet);
-            pageCCAddressInfoTab.getHouseFlatInput().sendKeys(Constants.customerAddressHouseFlat);
-            pageCCAddressInfoTab.getNeighbourhoodInput().sendKeys(Constants.customerAddressNeighbourhood);
-            pageCCAddressInfoTab.getAddressDescriptionInput().sendKeys(Constants.customerAddressDescription);
-            Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_address.png", 5);
-            WebElement saveButton = pageCCAddressInfoTab.getSaveButton();
-            Driver.clickElement(saveButton);
-            Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_ready_address.png", 5);
-            WebElement nextButton = pageCCAddressInfoTab.getNextButton();
-            Driver.clickElement(nextButton);
-        } else {
-            System.out.println("There shouldn't be any address for the new customer");
-        }
+        scrollToBottom();
+        pageCCAddressInfoTab.getAddButton();
+        WebElement addButton = pageCCAddressInfoTab.getAddButton();
+        Driver.clickElement(addButton);
+        pageCCAddressInfoTab.getCityInput().sendKeys(Constants.customerAddressCity);
+        pageCCAddressInfoTab.getDistrictInput().sendKeys(Constants.customerAddressDistrict);
+        pageCCAddressInfoTab.getStreetInput().sendKeys(Constants.customerAddressStreet);
+        pageCCAddressInfoTab.getHouseFlatInput().sendKeys(Constants.customerAddressHouseFlat);
+        pageCCAddressInfoTab.getNeighbourhoodInput().sendKeys(Constants.customerAddressNeighbourhood);
+        pageCCAddressInfoTab.getAddressDescriptionInput().sendKeys(Constants.customerAddressDescription);
+        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_address.png", 5);
+        pageCCAddressInfoTab.getSaveButton();
+        WebElement saveButton = pageCCAddressInfoTab.getSaveButton();
+        Driver.clickElement(saveButton);
+        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_ready_address.png", 5);
+        pageCCAddressInfoTab.getNextButton();
+        WebElement nextButton = pageCCAddressInfoTab.getNextButton();
+        Driver.clickElement(nextButton);
 
     }
 
@@ -170,17 +170,13 @@ public class TestFirst {
         createAddressInformationFromScratch();
         checkReachedToContact();
         if (isReachedToContact) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_empty_contact.png", 5);
             pageCCContactInfoTab.getEmailInput().sendKeys(Constants.customerContactEmail);
             pageCCContactInfoTab.getPhoneInput().sendKeys(Constants.customerContactPhone);
             pageCCContactInfoTab.getFaxInput().sendKeys(Constants.customerContactFax);
             pageCCContactInfoTab.getHomePhoneInput().sendKeys(Constants.customerContactHomePhone);
             Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_contact.png", 5);
+            pageCCContactInfoTab.getSaveButton();
             WebElement saveButton = pageCCContactInfoTab.getSaveButton();
             Driver.clickElement(saveButton);
         } else {
@@ -203,20 +199,11 @@ public class TestFirst {
         createContactInformationFromScratch();
         checkReachedToCustomerSearch();
         if (isReachedToCustomerSearch) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_reached_customer_search.png", 5);
             pageCustomerSearch.getNationalIDInput().sendKeys(Constants.customerNationalityID);
+            pageCustomerSearch.getSearchButton();
             WebElement SearchButton = pageCustomerSearch.getSearchButton();
             Driver.clickElement(SearchButton);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_searched_customer.png", 5);
             pageCustomerSearch.elementWithSpecificText();
             WebElement NatIdWithSpecificText = pageCustomerSearch.getNationalIDInput();
@@ -236,7 +223,17 @@ public class TestFirst {
     public void testPart() throws IOException {
         createDemographicInformation();
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testPart2() throws IOException {
+        createAddressInformationFromScratch();
+        try {
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

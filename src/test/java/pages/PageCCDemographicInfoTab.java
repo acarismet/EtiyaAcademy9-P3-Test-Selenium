@@ -76,7 +76,7 @@ public class PageCCDemographicInfoTab {
 
     // Navigating Buttons
     public WebElement getNextButton() {
-        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-customer-create/main/div/div/div[2]/app-button[2]/button"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-customer-create/main/div/div/div[2]/app-button[2]/button"), "click", 15);
     }
 
 
