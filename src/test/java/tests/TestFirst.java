@@ -4,9 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import pages.*;
 import utilities.Constants;
 import utilities.Driver;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,6 +36,7 @@ public class TestFirst {
     }
 
     // ####### VALID LOGIN
+
     public void validLogin () {
         pageLogin.getLoginEmailInput().sendKeys(Constants.loginValidEmail);
         System.out.println("Email entered => " + Constants.loginValidEmail);
@@ -50,6 +54,7 @@ public class TestFirst {
     }
 
     // ####### NAVIGATE TO CUSTOMER CREATION PAGE BY URL
+
     public void getToCustomerCreatePage () {
         validLogin();
         boolean isCustomerCreateLoaded = pageLogin.navigateToCustomerCreate();
@@ -59,6 +64,7 @@ public class TestFirst {
     }
 
     // ####### FIRST TAB - CREATE DEMOGRAPHIC INFORMATION
+
     public void createDemographicInformation() {
         getToCustomerCreatePage();
         pageCCDemographicInfoTab.getFirstNameInput().sendKeys(Constants.customerFirstName);
@@ -75,6 +81,7 @@ public class TestFirst {
     }
 
     // ####### CHECK NO ADDRESS IN ADDRESS INFO TAB
+
     boolean isNoAddress = false;
     public void checkNoAddress() {
         assertEquals(Constants.noAddressText, pageCCAddressInfoTab.getNoAddressText(), "There is already address for this customer");
@@ -82,6 +89,7 @@ public class TestFirst {
     }
 
     // ####### CHECK ADDRESS INFO TAB URL
+
     boolean isReachedToAddress = false;
     public void checkReachedToAddress() {
         isReachedToAddress = pageCCAddressInfoTab.waitForSpecificUrl(Constants.customerSearchURL, 10);
@@ -92,6 +100,7 @@ public class TestFirst {
     }
 
     // ####### SECOND TAB - CREATE ADDRESS INFORMATION
+
     public void createAddressInformationFromScratch() {
         createDemographicInformation();
         if(isReachedToAddress) {
@@ -115,6 +124,7 @@ public class TestFirst {
     }
 
     // ####### CHECK CONTACT INFO TAB URL
+
     boolean isReachedToContact = false;
     public void checkReachedToContact() {
         isReachedToContact = pageCCContactInfoTab.waitForSpecificUrl(Constants.customerSearchURL, 10);
@@ -125,6 +135,7 @@ public class TestFirst {
     }
 
     // ####### THIRD TAB - CREATE CONTACT INFORMATION
+
     public void createContactInformationFromScratch() {
         createAddressInformationFromScratch();
         if (isReachedToContact) {
@@ -140,12 +151,55 @@ public class TestFirst {
 
     boolean isReachedToCustomerSearch = false;
     public void checkReachedToCustomerSearch() {
+        isReachedToCustomerSearch = pageCustomerSearch.waitForSpecificUrl(Constants.customerSearchURL, 10);
+        System.out.println("URL reached: " + isReachedToCustomerSearch);
 
+        String currentUrl = pageCustomerSearch.getCurrentPageUrl();
+        System.out.println("Current Page URL: " + currentUrl);
     }
 
     public void checkCreatedCustomerByNationality() {
         createDemographicInformation();
-        System.out.println("User couldn't be redirected to the Customer Search Page");
+        if (isReachedToCustomerSearch) {
+            pageCustomerSearch.getNationalIDInput().sendKeys(Constants.customerNationalityID);
+            pageCustomerSearch.getSearchButton().click();
+            pageCustomerSearch.elementWithSpecificText();
+            WebElement NatIdWithSpecificText = pageCustomerSearch.getNationalIDInput();
+            if (NatIdWithSpecificText != null) {
+                // You can perform actions on the element, like clicking it or retrieving more information
+                System.out.println("Created Customer Found: " + NatIdWithSpecificText.getText());
+            } else {
+                System.out.println("Element with specified text not found.");
+            }
+        } else {
+            System.out.println("User couldn't be redirected to the Customer Search Page");
+        }
+
+    }
+
+    public void checkSearch() {
+        validLogin();
+        pageCustomerSearch.getNationalIDInput().sendKeys("12345678901");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        pageCustomerSearch.getSearchButton().click();
+        WebElement NatIdWithSpecificText = pageCustomerSearch.getNationalIDInput();
+        if (NatIdWithSpecificText != null) {
+            // You can perform actions on the element, like clicking it or retrieving more information
+            System.out.println("Created Customer Found: " + NatIdWithSpecificText.getText());
+        } else {
+            System.out.println("Element with specified text not found.");
+        }
+
+    }
+
+    @Test
+    public void testCheckSearch() throws IOException {
+        checkSearch();
+        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_check_search.png", 5);
     }
 
 //    @Test

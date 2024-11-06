@@ -82,19 +82,37 @@ public class Driver {
         return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
-    // For an element with a specific attribute (like data-test or src)
+    // For an element with a specific attribute (data-test, src, formcontrolname)
     public static WebElement waitForElementWithAttribute(WebDriver webDriver, By locator, String attributeValue, String action, int timeout) {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(timeout));
         return wait.until(driver -> {
             WebElement element = driver.findElement(locator);
-            // Check if the attribute matches the expected value
+            // Check if the element has the specified attribute (data-test, formcontrolname, or src)
             if (element.getAttribute("data-test") != null && element.getAttribute("data-test").equals(attributeValue) ||
+                    element.getAttribute("formcontrolname") != null && element.getAttribute("formcontrolname").equals(attributeValue) ||
                     element.getAttribute("src") != null && element.getAttribute("src").equals(attributeValue)) {
                 return element;
             }
             return null; // If not found, return null to keep waiting
         });
     }
+
+
+    // To Get Element With Specific Text
+    public static WebElement waitForElementWithText(WebDriver driver, By locator, String text, int timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        return wait.until(driverInstance -> {
+            List<WebElement> elements = driverInstance.findElements(locator);
+            for (WebElement element : elements) {
+                if (element.getText().equals(text)) {
+                    return element;
+                }
+            }
+            return null; // Continue waiting if no element with the specified text is found
+        });
+    }
+
+
 
     // Go to specific url and wait
     public static boolean navigateToUrlAndWait(String url, int timeout) {
