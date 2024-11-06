@@ -3,6 +3,7 @@ package tests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pages.*;
@@ -35,24 +36,19 @@ public class TestFirst {
         pageCustomerSearch = new PageCustomerSearch(driver);
     }
 
+    public void scrollToBottom() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+    }
+
     // ####### VALID LOGIN
 
     public void validLogin () throws IOException {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_empty_login.png", 5);
         pageLogin.getLoginEmailInput().sendKeys(Constants.loginValidEmail);
         System.out.println("Email entered => " + Constants.loginValidEmail);
         pageLogin.getLoginPasswordInput().sendKeys(Constants.loginValidPassword);
         System.out.println("Password entered => " + Constants.loginValidPassword);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_login.png", 5);
         pageLogin.getLoginButton().click();
 
@@ -63,11 +59,6 @@ public class TestFirst {
         System.out.println("Current Page URL: " + currentUrl);
         assert isUrlReached : "FAILED TO REACH EXPECTED URL";
         System.out.println("Reached URL successfully!");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_logged_in.png", 5);
     }
 
@@ -79,11 +70,6 @@ public class TestFirst {
         System.out.println("Customer Create loaded: " + isCustomerCreateLoaded);
         assert isCustomerCreateLoaded : "FAILED TO LOAD CUSTOMER CREATE";
         System.out.println("Customer Create loaded successfully!" + pageLogin.getCurrentPageUrl());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_reached_empty_creation.png", 5);
     }
 
@@ -94,20 +80,28 @@ public class TestFirst {
         pageCCDemographicInfoTab.getFirstNameInput().sendKeys(Constants.customerFirstName);
         pageCCDemographicInfoTab.getMiddleNameInput().sendKeys(Constants.customerMiddleName);
         pageCCDemographicInfoTab.getLastNameInput().sendKeys(Constants.customerLastName);
-        pageCCDemographicInfoTab.getBirthDateInput().click();
-        pageCCDemographicInfoTab.getBirthDateInput().sendKeys(Constants.customerBirthday);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement birthDateInput = pageCCDemographicInfoTab.getBirthDateInput();
+        js.executeScript("arguments[0].click();", birthDateInput);  // JavaScript ile tıklama
+        js.executeScript("arguments[0].value='2024-11-06';", birthDateInput);  // Tarih değerini JavaScript ile set etme
+
+        //        try {
+//            Thread.sleep(4000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+
+
         pageCCDemographicInfoTab.getGenderDropdown().click();
         pageCCDemographicInfoTab.getMaleOption().click();
         pageCCDemographicInfoTab.getFatherNameInput().sendKeys(Constants.customerFatherName);
         pageCCDemographicInfoTab.getMotherNameInput().sendKeys(Constants.customerMotherName);
         pageCCDemographicInfoTab.getNationalityIdInput().sendKeys(Constants.customerNationalityID);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        scrollToBottom();
         Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_demographic.png", 5);
-        pageCCDemographicInfoTab.getNextButton().click();
+        WebElement nextButton = pageCCDemographicInfoTab.getNextButton();
+        Driver.clickElement(nextButton);
     }
 
     // ####### CHECK NO ADDRESS IN ADDRESS INFO TAB
@@ -121,12 +115,14 @@ public class TestFirst {
     // ####### CHECK ADDRESS INFO TAB URL
 
     boolean isReachedToAddress = false;
-    public void checkReachedToAddress() {
+    public void checkReachedToAddress() throws IOException {
         isReachedToAddress = pageCCAddressInfoTab.waitForSpecificUrl(Constants.customerSearchURL, 10);
         System.out.println("URL reached: " + isReachedToAddress);
 
         String currentUrl = pageCCAddressInfoTab.getCurrentPageUrl();
         System.out.println("Current Page URL: " + currentUrl);
+        Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_empty_address.png", 5);
+        System.out.println("User couldn't be redirected to the Address Information Tab");
     }
 
     // ####### SECOND TAB - CREATE ADDRESS INFORMATION
@@ -134,41 +130,25 @@ public class TestFirst {
     public void createAddressInformationFromScratch() throws IOException {
         createDemographicInformation();
         checkReachedToAddress();
-        if(isReachedToAddress) {
-            checkNoAddress();
-            if(isNoAddress) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_empty_address.png", 5);
-                pageCCAddressInfoTab.getAddButton().click();
-                pageCCAddressInfoTab.getCityInput().sendKeys(Constants.customerAddressCity);
-                pageCCAddressInfoTab.getDistrictInput().sendKeys(Constants.customerAddressDistrict);
-                pageCCAddressInfoTab.getStreetInput().sendKeys(Constants.customerAddressStreet);
-                pageCCAddressInfoTab.getHouseFlatInput().sendKeys(Constants.customerAddressHouseFlat);
-                pageCCAddressInfoTab.getNeighbourhoodInput().sendKeys(Constants.customerAddressNeighbourhood);
-                pageCCAddressInfoTab.getAddressDescriptionInput().sendKeys(Constants.customerAddressDescription);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_address.png", 5);
-                pageCCAddressInfoTab.getSaveButton().click();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_ready_address.png", 5);
-                pageCCAddressInfoTab.getNextButton().click();
-            } else {
-                System.out.println("There shouldn't be any address for the new customer");
-            }
+        checkNoAddress();
+        if(isNoAddress) {
+            scrollToBottom();
+            WebElement addButton = pageCCAddressInfoTab.getAddButton();
+            Driver.clickElement(addButton);
+            pageCCAddressInfoTab.getCityInput().sendKeys(Constants.customerAddressCity);
+            pageCCAddressInfoTab.getDistrictInput().sendKeys(Constants.customerAddressDistrict);
+            pageCCAddressInfoTab.getStreetInput().sendKeys(Constants.customerAddressStreet);
+            pageCCAddressInfoTab.getHouseFlatInput().sendKeys(Constants.customerAddressHouseFlat);
+            pageCCAddressInfoTab.getNeighbourhoodInput().sendKeys(Constants.customerAddressNeighbourhood);
+            pageCCAddressInfoTab.getAddressDescriptionInput().sendKeys(Constants.customerAddressDescription);
+            Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_address.png", 5);
+            WebElement saveButton = pageCCAddressInfoTab.getSaveButton();
+            Driver.clickElement(saveButton);
+            Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_ready_address.png", 5);
+            WebElement nextButton = pageCCAddressInfoTab.getNextButton();
+            Driver.clickElement(nextButton);
         } else {
-            System.out.println("User couldn't be redirected to the Address Information Tab");
+            System.out.println("There shouldn't be any address for the new customer");
         }
 
     }
@@ -200,18 +180,15 @@ public class TestFirst {
             pageCCContactInfoTab.getPhoneInput().sendKeys(Constants.customerContactPhone);
             pageCCContactInfoTab.getFaxInput().sendKeys(Constants.customerContactFax);
             pageCCContactInfoTab.getHomePhoneInput().sendKeys(Constants.customerContactHomePhone);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_filled_contact.png", 5);
-            pageCCContactInfoTab.getSaveButton().click();
+            WebElement saveButton = pageCCContactInfoTab.getSaveButton();
+            Driver.clickElement(saveButton);
         } else {
             System.out.println("User couldn't be redirected to the Contact Information Tab");
         }
     }
 
+    // ####### CHECK CUSTOMER PAGE URL
     boolean isReachedToCustomerSearch = false;
     public void checkReachedToCustomerSearch() {
         isReachedToCustomerSearch = pageCustomerSearch.waitForSpecificUrl(Constants.customerSearchURL, 10);
@@ -221,6 +198,7 @@ public class TestFirst {
         System.out.println("Current Page URL: " + currentUrl);
     }
 
+    // ####### ALL SUCCESSFUL STEPS HOLDER
     public void checkCreatedCustomerByNationality() throws IOException {
         createContactInformationFromScratch();
         checkReachedToCustomerSearch();
@@ -232,7 +210,8 @@ public class TestFirst {
             }
             Driver.takeScreenshot(driver, "../screenshots/screenshots_4_create_customer", "test_1_CustomerCreate_reached_customer_search.png", 5);
             pageCustomerSearch.getNationalIDInput().sendKeys(Constants.customerNationalityID);
-            pageCustomerSearch.getSearchButton().click();
+            WebElement SearchButton = pageCustomerSearch.getSearchButton();
+            Driver.clickElement(SearchButton);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -253,6 +232,15 @@ public class TestFirst {
     }
 
 
+    @Test
+    public void testPart() throws IOException {
+        createDemographicInformation();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 
@@ -262,6 +250,8 @@ public class TestFirst {
         checkCreatedCustomerByNationality();
         System.out.println("\n######## testSuccessfulCustomerCreation Ends ########\n");
     }
+
+
 
 
     @AfterEach

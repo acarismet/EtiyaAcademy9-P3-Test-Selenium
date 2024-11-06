@@ -18,7 +18,7 @@ public class Constants {
     public static final String customerBirthday = "05121921";
     public static final String customerFatherName = "Cezvehan";
     public static final String customerMotherName = "Telvenur";
-    public static final String customerNationalityID = "10112113114";
+    public static final String customerNationalityID = "10112113119";
 
 
     // Address Info Tab

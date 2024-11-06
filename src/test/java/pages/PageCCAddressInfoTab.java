@@ -62,19 +62,19 @@ public class PageCCAddressInfoTab {
 
     // Navigating Buttons
     public WebElement getNextButton() {
-        return Driver.waitForElement(driver, By.cssSelector("div.sm\\:flex:nth-child(3) > div:nth-child(2) > app-button:nth-child(2) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-address-info/main/div/div/div[2]/div[2]/app-button[2]/button"), "click", 10);
     }
 
     public WebElement getAddButton() {
-        return Driver.waitForElement(driver, By.cssSelector(".sm\\:gap-8 > app-button:nth-child(2) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-address-info/main/div/div/div[2]/div[1]/app-button[2]/button"), "click", 10);
     }
 
     public WebElement getPreviousButton() {
-        return Driver.waitForElement(driver, By.cssSelector("div.sm\\:flex:nth-child(3) > div:nth-child(2) > app-button:nth-child(1) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-address-info/main/div/div/div[2]/div[2]/app-button[1]/button"), "click", 10);
     }
 
     public WebElement getExitButton() {
-        return Driver.waitForElement(driver, By.cssSelector(".sm\\:gap-8 > app-button:nth-child(1) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-address-info/main/div/div/div[2]/div[1]/app-button[1]/button"), "click", 10);
     }
 
     // Wait and Get URL

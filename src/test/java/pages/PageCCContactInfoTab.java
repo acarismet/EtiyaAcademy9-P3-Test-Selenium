@@ -32,15 +32,15 @@ public class PageCCContactInfoTab {
 
     // Navigating Buttons
     public WebElement getSaveButton() {
-        return Driver.waitForElement(driver, By.cssSelector(".justify-around > app-button:nth-child(3) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-customer-create/main/div/div/form/div[5]/app-button[3]/button"), "click", 10);
     }
 
     public WebElement getPreviousButton() {
-        return Driver.waitForElement(driver, By.cssSelector(".justify-around > app-button:nth-child(2) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-customer-create/main/div/div/form/div[5]/app-button[2]/button"), "click", 10);
     }
 
     public WebElement getExitButton() {
-        return Driver.waitForElement(driver, By.cssSelector(".justify-around > app-button:nth-child(1) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-customer-create/main/div/div/form/div[5]/app-button[1]/button"), "click", 10);
     }
 
 

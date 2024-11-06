@@ -9,6 +9,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.NoSuchElementException;
 
 import java.io.File;
 import java.io.IOException;
@@ -118,6 +121,28 @@ public class Driver {
     public static boolean navigateToUrlAndWait(String url, int timeout) {
         driver.get(url);
         return waitForUrl(url, timeout);
+    }
+
+    public static void clickElement(WebElement element) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 10 saniye bekle
+            wait.until(ExpectedConditions.elementToBeClickable(element)); // Element tıklanabilir olana kadar bekle
+            element.click();
+            System.out.println("Element clicked successfully.");
+        } catch (NoSuchElementException e) {
+            System.out.println("Element not found.");
+        } catch (WebDriverException e) {
+            System.out.println("Normal click failed: " + e.getMessage() + ". JavaScript will try clicking.");
+            try {
+                JavascriptExecutor js = (JavascriptExecutor) driver;
+                js.executeScript("arguments[0].click();", element);
+                System.out.println("Clicking with JavaScript was successful.");
+            } catch (Exception jsException) {
+                System.out.println("The JavaScript click also failed: " + jsException.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
 
 

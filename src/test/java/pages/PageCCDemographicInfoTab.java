@@ -76,10 +76,16 @@ public class PageCCDemographicInfoTab {
 
     // Navigating Buttons
     public WebElement getNextButton() {
-        return Driver.waitForElement(driver, By.cssSelector(".justify-around > app-button:nth-child(2) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-customer-create/main/div/div/div[2]/app-button[2]/button"), "click", 10);
     }
 
+
+//    public WebElement getNextButton() {
+//        return Driver.waitForElementWithText(driver, By.xpath("/html/body/app-root/app-customer-create/main/div/div/div[2]/app-button[2]/button"), " Next\n", 10);
+//    }
+
+
     public WebElement getExitButton() {
-        return Driver.waitForElement(driver, By.cssSelector(".justify-around > app-button:nth-child(1) > button:nth-child(1)"), "click", 10);
+        return Driver.waitForElement(driver, By.xpath("/html/body/app-root/app-customer-create/main/div/div/div[2]/app-button[1]/button"), "click", 10);
     }
 }
