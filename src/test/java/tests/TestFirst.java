@@ -167,26 +167,6 @@ public class TestFirst {
     }
 
 
-    @Test
-    public void testPart() throws IOException {
-        createDemographicInformation();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Test
-    public void testPart2() throws IOException {
-        createContactInformationFromScratch();
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
 
     @Test
